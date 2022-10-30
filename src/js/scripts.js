@@ -37,11 +37,18 @@ init();
 const box = boxFactory(
   scene,
   {
+    position: {
+      y: 1,
+    },
     rotation: {
       x: 5,
       y: 5,
     },
     map: nebula,
+    onHover: function () {
+      this.rotation.x += 0.01;
+      this.rotation.y += 0.01;
+    },
   },
   function () {
     this.rotation.x += 0.01;

@@ -1,4 +1,5 @@
 import { CubeTextureLoader, TextureLoader } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import nebula from "../img/nebula.jpg";
 import stars from "../img/stars.jpg";
 

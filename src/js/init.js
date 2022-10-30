@@ -3,6 +3,7 @@ import { FogExp2 } from "three";
 import { load3dBackground, loadTexture } from "./textures";
 import stars from "../img/stars.jpg";
 import nebula from "../img/nebula.jpg";
+import { initMouseVector, initRaycaster } from "./raycaster";
 
 export const initRenderer = (scene, camera, config = {}) => {
   config = {
@@ -13,7 +14,9 @@ export const initRenderer = (scene, camera, config = {}) => {
     ...config,
   };
 
+  let mouse = initMouseVector();
   let renderer = new THREE.WebGLRenderer();
+  let raycaster = initRaycaster();
   let $canvas = renderer.domElement;
 
   renderer.shadowMap.enabled = true;
@@ -27,10 +30,24 @@ export const initRenderer = (scene, camera, config = {}) => {
         child.render();
       }
     }
+    raycaster.render(scene, camera, mouse);
     renderer.render(scene, camera);
+    if (raycaster.intersects.length > 0) {
+      for (let intersect of raycaster.intersects) {
+        if (intersect.object.onHover) {
+          intersect.object.onHover();
+        }
+      }
+    }
   }
 
   renderer.setAnimationLoop(animate);
+
+  window.addEventListener("resize", function () {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
   return [renderer, $canvas];
 };
 

@@ -103,9 +103,9 @@ export function setGui(object, config) {
         opt[key] = object.material.color;
         config.gui.instance.addColor(opt, key).onChange(function (e) {
           console.log("onColorChange", e, object.material);
-          object.material.color.r = e.r;
-          object.material.color.g = e.g;
-          object.material.color.b = e.b;
+          object.material.color.r = e.r / 255;
+          object.material.color.g = e.g / 255;
+          object.material.color.b = e.b / 255;
           if (object.updateHelper) {
             object.updateHelper();
           }

@@ -23,7 +23,7 @@ export function boxFactory(scene, config = {}, renderFn = false) {
   const mesh = new Mesh(geometry, material);
 
   if (config.map) {
-    textureLoader.load(config.map);
+    material.map = textureLoader.load(config.map);
   }
   setShadows(mesh, config);
   setObjectAxes(mesh, config);
@@ -33,6 +33,10 @@ export function boxFactory(scene, config = {}, renderFn = false) {
     mesh.render = renderFn.bind(mesh);
   } else {
     mesh.render = function () {};
+  }
+
+  if (config.onHover) {
+    mesh.onHover = config.onHover.bind(mesh);
   }
 
   scene.add(mesh);
